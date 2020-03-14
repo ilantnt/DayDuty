@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import Select, { components } from "react-select";
 import makeAnimated from "react-select/animated";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Icon from "@material-ui/core/Icon";
+import Week from "./Components/Week";
 import "bootstrap/dist/css/bootstrap.css";
 
 const toranim = ["אביב", "יפתח", "יצחיאק", "סיקורל", "תומאס"];
@@ -39,6 +43,7 @@ class App extends Component {
 
   setForEachDay = () => {
     let week_items = [];
+    week_items.push(<th>Toran</th>);
     for (var i = 0; i < days.length; i++) {
       week_items.push(
         <td>
@@ -76,19 +81,13 @@ class App extends Component {
   generateHeader = () => {
     console.log("damn");
     let header_days = [];
+    header_days.push(<th></th>);
     for (var i = 0; i < days.length; i++) {
-      if (days[i] == "Yachvatz") {
-        header_days.push(
-          <th class="Yachvatz" id={days[i]}>
-            {days[i]}
-          </th>
-        );
-      } else
-        header_days.push(
-          <th class="toran_days" id={days[i]}>
-            {days[i]}
-          </th>
-        );
+      header_days.push(
+        <th class="toran_days" id={days[i]}>
+          {days[i]}
+        </th>
+      );
     }
     return header_days;
   };
@@ -96,6 +95,9 @@ class App extends Component {
   render() {
     return (
       <div>
+        <div>
+          <Week />
+        </div>
         <table class="table table-border cell-border">
           <thead>
             <tr>{this.generateHeader()}</tr>
