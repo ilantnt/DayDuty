@@ -12,7 +12,8 @@ class Week extends Component {
     super(props);
     var date = new Date();
     this.state = {
-      dates: date
+      dates: date,
+      week_count: 0
     };
   }
   componentWillMount() {
@@ -23,15 +24,13 @@ class Week extends Component {
   }
   componentDidUpdate() {
     console.log("hhh");
+    console.log(this.state.week_count);
   }
 
   getCurrentWeek = () => {
     var currentDate = moment();
-
     var weekStart = currentDate.clone().startOf("week");
-
     var days = [];
-
     for (var i = 0; i <= 6; i++) {
       days.push(
         moment(weekStart)
@@ -39,18 +38,17 @@ class Week extends Component {
           .format("D.MM")
       );
     }
-    console.log(days);
-
     this.setState({
       dates: days
     });
-    console.log("ttttt");
-    console.log(this.state.dates);
   };
 
-  setWeekBack = () => {
+  setWeek = sign => {
+    if (sign == "sub") this.state.week_count--;
+    else this.state.week_count++;
+
     let week_ago_momnet = moment()
-      .subtract(1, "weeks")
+      .add(this.state.week_count, "weeks")
       .startOf("week");
     var days = [];
 
@@ -63,7 +61,7 @@ class Week extends Component {
     }
     // console.log(days);
     this.setState({
-      date: days
+      dates: days
     });
   };
 
@@ -81,7 +79,7 @@ class Week extends Component {
             variant="contained"
             color="primary"
             startIcon={<ArrowBackIosIcon />}
-            onClick={this.WeekBack}
+            onClick={() => this.setWeek("sub")}
           >
             Back
           </Button>
@@ -92,9 +90,9 @@ class Week extends Component {
             color="primary"
             className="righty"
             endIcon={<ArrowForwardIosIcon />}
-            onClick={this.WeekBack}
+            onClick={() => this.setWeek("add")}
           >
-            s
+            Next
           </Button>
         </div>
         <div>

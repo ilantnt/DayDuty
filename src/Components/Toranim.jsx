@@ -2,31 +2,26 @@ import React, { Component } from "react";
 import Select, { components } from "react-select";
 import makeAnimated from "react-select/animated";
 import moment from "moment";
+
 const toranim = ["A", "B", "C", "D", "E"];
-
 const animatedComponents = makeAnimated();
-
-const days = [
+const week_days = [
   "Sunday",
   "Monday",
   "Tuesday",
   "Wendsday",
   "Thursday",
   "Friday",
-  "Saturday",
-  "Yachvatz"
+  "Saturday"
 ];
-
 class Toranim extends Component {
   constructor(props) {
     super(props);
     var date = new Date();
-    this.state = { start_date: date, toran_daily: null };
+    this.state = { dates: props.date, toran_daily: null };
   }
   componentWillMount() {
-    this.state.start_date.setDate(
-      this.state.start_date.getDate() - (this.state.start_date.getDay() % 7)
-    );
+    console.log("ytre");
   }
   handleChange = target_toran => {
     console.log(target_toran);
@@ -41,33 +36,47 @@ class Toranim extends Component {
   };
 
   setForEachDay = () => {
+    let dates = this.state.dates;
     let week_items = [];
     week_items.push(<th key="empty">Toran</th>);
-    for (var i = 0; i < days.length; i++) {
+    // to include Yachtaz you must to add +1 to days
+    for (var i = 0; i < dates.length; i++) {
       week_items.push(
-        <td key={days[i]}>
+        <td key={dates[i]}>
           <Select
-            id={i}
+            id={dates[i]}
             defaultValue="-1"
             onChange={this.handleChange}
             onClick={this.handlePrint()}
-            options={this.addOptions()}
+            options={this.addOptions(dates[i])}
             components={animatedComponents}
           ></Select>
         </td>
       );
     }
+    week_items.push(
+      <td key="Yashvatz">
+        <Select
+          id="Yashvatz"
+          defaultValue="-1"
+          onChange={this.handleChange}
+          onClick={this.handlePrint()}
+          options={this.addOptions()}
+          components={animatedComponents}
+        ></Select>
+      </td>
+    );
 
     return week_items;
   };
   handlePrint = () => {};
-  addOptions = () => {
+  addOptions = date => {
     let items = [];
 
     for (var i = 0; i < toranim.length; i++) {
       items.push({
         label: toranim[i],
-        value: i,
+        value: date,
         key: i
       });
     }
@@ -75,43 +84,40 @@ class Toranim extends Component {
   };
 
   generateHeader = cur_date => {
-    let tmp_date = this.state.start_date;
     let header_days = [];
     header_days.push(<th key="empty"></th>);
     for (var i = 0; i < cur_date.length + 1; i++) {
       if (i != cur_date.length) {
         header_days.push(
-          <th className="toran_days" key={days[i]}>
-            {cur_date[i]}
+          <th className="toran_days" key={cur_date[i]}>
+            {week_days[i] + "\n" + cur_date[i]}
           </th>
         );
       } else {
         header_days.push(
-          <th className="toran_days" key={days[i]}>
-            Yachvatz
+          <th className="toran_days" key="Yashvtaz">
+            Weekly Yachvatz
           </th>
         );
       }
     }
     return header_days;
   };
-  stam = x => {
-    console.log("pppppp");
-    console.log(x);
-  };
+
   render() {
     var cur_date = this.props.date;
     return (
       <div>
         <div>
-          <table className="table table-border cell-border">
+          <table id="Toranim" className="table table-border cell-border">
             <thead>
-              <tr>{this.generateHeader(cur_date)}</tr>
+              <tr>{this.generateHeader(this.props.date)}</tr>
             </thead>
             <tbody>{this.generateTable()}</tbody>
           </table>
+          {console.log("444444")}
+          {console.log(this.props.date)}
         </div>
-        <div>{this.stam(this.props.date)}</div>
       </div>
     );
   }

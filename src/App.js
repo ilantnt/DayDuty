@@ -11,25 +11,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 const toranim = ["אביב", "יפתח", "יצחיאק", "סיקורל", "תומאס"];
 
-const animatedComponents = makeAnimated();
-
-const days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wendsday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Yachvatz"
-];
-
 class App extends Component {
-  state = {
-    date: new Date().getDay(),
-    toran_daily: ""
-  };
-
   render() {
     return (
       <div>
