@@ -28,15 +28,23 @@ class Toranim extends Component {
     this.setState({ toran_daily: target_toran["label"] });
   };
 
+  setDates = () => {
+    console.log("passed");
+    console.log(this.props.date);
+    this.setState({
+      dates: this.props.date
+    });
+  };
   generateTable = () => {
     let res = [];
+
     res.push(<tr key="date_header">{this.setForEachDay()}</tr>);
 
     return res;
   };
 
   setForEachDay = () => {
-    let dates = this.state.dates;
+    let dates = this.props.date;
     let week_items = [];
     week_items.push(<th key="empty">Toran</th>);
     // to include Yachtaz you must to add +1 to days
@@ -47,7 +55,6 @@ class Toranim extends Component {
             id={dates[i]}
             defaultValue="-1"
             onChange={this.handleChange}
-            onClick={this.handlePrint()}
             options={this.addOptions(dates[i])}
             components={animatedComponents}
           ></Select>
@@ -60,8 +67,9 @@ class Toranim extends Component {
           id="Yashvatz"
           defaultValue="-1"
           onChange={this.handleChange}
-          onClick={this.handlePrint()}
-          options={this.addOptions()}
+          options={this.addOptions(
+            "yashvatz-" + dates[0] + "-" + dates[dates.length - 1]
+          )}
           components={animatedComponents}
         ></Select>
       </td>
@@ -69,7 +77,7 @@ class Toranim extends Component {
 
     return week_items;
   };
-  handlePrint = () => {};
+
   addOptions = date => {
     let items = [];
 
@@ -109,14 +117,14 @@ class Toranim extends Component {
     return (
       <div>
         <div>
+          {console.log("444444")}
+          {console.log(this.props.date)}
           <table id="Toranim" className="table table-border cell-border">
             <thead>
               <tr>{this.generateHeader(this.props.date)}</tr>
             </thead>
             <tbody>{this.generateTable()}</tbody>
           </table>
-          {console.log("444444")}
-          {console.log(this.props.date)}
         </div>
       </div>
     );
