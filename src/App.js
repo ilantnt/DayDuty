@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 import Week from "./Components/Week";
 
-const toranim = ["אביב", "יפתח", "יצחיאק", "סיקורל", "תומאס"];
-
 class App extends Component {
   render() {
+    var x = [];
     return (
       <div>
-        <div>
-          <Week />
-        </div>
+        <Week />
       </div>
     );
   }
